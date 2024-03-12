@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
+const { tweetsBaseURI } = require("./config/paths");
+
+const { tweetRouter } = require("./routes");
+
 const corsOptions = {
   origin: `http://localhost:5173`,
 };
@@ -18,19 +22,22 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get(`/`, (req, res) => {
+// Routes
+app.get("/", (req, res) => {
   return res.send("La racine de l'app");
 });
+
+app.use(tweetsBaseURI, tweetRouter);
 
 app.listen(PORT, () => {
   console.log(`Le serveur tourne sur le port ${PORT}`);
 });
-/*
+
 const fs = require("fs");
 const path = require("path");
 
 const filePath = path.join(__dirname, "../assets/data.json");
-
+/*
 fs.appendFile("../assets/data.json", "../assets/initial-data.json", (err) => {
   if (err) throw err;
 
