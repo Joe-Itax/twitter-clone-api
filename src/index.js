@@ -36,7 +36,39 @@ app.listen(PORT, () => {
 const fs = require("fs");
 const path = require("path");
 
-const filePath = path.join(__dirname, "../assets/data.json");
+//const filePath = path.join(__dirname, "../assets/data.json");
+const initialDataPath = path.join(
+  __dirname,
+  "..",
+  "assets",
+  "initial-data.json"
+);
+const newDataPath = path.join(__dirname, "..", "assets", "data.json");
+
+// Verification pour savoir si le fichier data.json /assets/data.json exite déjà ou non
+if (!fs.existsSync(newDataPath)) {
+  // Lecture du contenu du fichier initial-data.json
+  fs.readFile(initialDataPath, "utf8", (err, data) => {
+    if (err) {
+      console.error(`Erreur lors de l'écriture du fichier data.json: `, err);
+      return;
+    }
+    // Écriture du contenu dans le fichier data.json
+    fs.writeFile(newDataPath, data, "utf8", (err) => {
+      if (err) {
+        console.error(`Erreur lors de l'écriture du fichier data.json: `, err);
+        return;
+      }
+      console.log(
+        "Le fichier data.json a été créé avec succès en copiant les données de initial-data.json."
+      );
+    });
+  });
+}
+
+console.log(newDataPath);
+
+// Lecture du contenu du fichier initial-data.json
 /*
 fs.appendFile("../assets/data.json", "../assets/initial-data.json", (err) => {
   if (err) throw err;
