@@ -8,7 +8,11 @@ Retrieve all tweets
 */
 async function getAllTweets(req, res) {
   try {
-    return res.send(tweets[tweets.length - 1]);
+    // Tri des tweets du plus récent au plus ancien
+    const sortedTweets = tweets.sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+    return res.send(sortedTweets);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
