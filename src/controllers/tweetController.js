@@ -1,4 +1,4 @@
-const data = require("../../assets/initial-data.json");
+const data = require("../../assets/data.json");
 const tweets = data.tweets;
 
 /*

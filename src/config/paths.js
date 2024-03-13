@@ -1,5 +1,5 @@
 const tweetsBaseURI = "/tweets";
-const handleBaseURI = "/<handle>/tweets";
+const handleBaseURI = "/:handle";
 
 const paths = {
   tweetsBaseURI: tweetsBaseURI,

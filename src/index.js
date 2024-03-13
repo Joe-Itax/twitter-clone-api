@@ -4,8 +4,9 @@ const app = express();
 const PORT = 3000;
 
 const { tweetsBaseURI } = require("./config/paths");
+const { handleBaseURI } = require("./config/paths");
 
-const { tweetRouter } = require("./routes");
+const { tweetRouter, handleRouter } = require("./routes");
 
 const corsOptions = {
   origin: `http://localhost:5173`,
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   return res.send("La racine de l'app");
 });
-
+app.use(handleBaseURI, handleRouter);
 app.use(tweetsBaseURI, tweetRouter);
 
 app.listen(PORT, () => {
