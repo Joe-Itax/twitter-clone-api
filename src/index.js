@@ -65,31 +65,3 @@ if (!fs.existsSync(newDataPath)) {
     });
   });
 }
-
-console.log(newDataPath);
-
-// Lecture du contenu du fichier initial-data.json
-/*
-fs.appendFile("../assets/data.json", "../assets/initial-data.json", (err) => {
-  if (err) throw err;
-
-  console.log("fichier créer!");
-});
-
-fs.writeFile(filePath, "", (err) => {
-  if (err) throw err;
-  console.log("fichier créer ici: ", filePath);
-});*/
-
-/*
-fs.unlink("nouveauFichier.txt", (err) => {
-  if (err) throw err;
-  console.log("nouveauFichier.txt was deleted");
-});
-
-
-fs.copyFile("../assets/initial-data.json", "../assets/data.json", (err) => {
-  if (err) throw err;
-  console.log("Fichier copié");
-});
-*/
