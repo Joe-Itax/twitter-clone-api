@@ -8,6 +8,8 @@ const { handleBaseURI } = require("./config/paths");
 
 const { tweetRouter, handleRouter } = require("./routes");
 
+//const { getDetailsOfAUser } = require("./controllers/handleController");
+
 const corsOptions = {
   origin: `http://localhost:5173`,
 };
@@ -27,6 +29,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   return res.send("La racine de l'app");
 });
+//app.get("/:handle", getDetailsOfAUser);
 app.use(handleBaseURI, handleRouter);
 app.use(tweetsBaseURI, tweetRouter);
 

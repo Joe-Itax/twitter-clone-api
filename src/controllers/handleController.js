@@ -19,10 +19,14 @@ function findUserIdByHandle(users, targetHandle) {
 returns all infos of a user 
 identified by their handle
 --------------------------
+/:handle
 */
 async function getDetailsOfAUser(req, res) {
   let handle = req.baseUrl;
-  handle = handle.slice(1, handle.length);
+  handle = handle.slice(7, handle.length);
+  //console.log(res);
+  console.log(req.params);
+  console.log("reqdd: ", handle);
   let targetHandle = `@${handle}`;
 
   let { userId, infoUser } = findUserIdByHandle(users, targetHandle);
@@ -50,11 +54,12 @@ async function getDetailsOfAUser(req, res) {
 returns all tweets from a user 
 identified by their handle
 --------------------------
+/:handle/tweets
 */
 async function getTweetsOfOneUser(req, res) {
   let handle = req.baseUrl;
 
-  handle = handle.slice(1, handle.length);
+  handle = handle.slice(7, handle.length);
   let targetHandle = `@${handle}`;
 
   let { userId, infoUser } = findUserIdByHandle(users, targetHandle);
