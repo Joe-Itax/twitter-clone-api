@@ -1,4 +1,12 @@
-const data = require("../../assets/data.json");
+const fs = require("fs");
+const path = require("path");
+
+const pathToData = path.join(__dirname, "..", "..", "assets", "data.json");
+
+const data = fs.existsSync(pathToData)
+  ? require("../../assets/data.json")
+  : require("../../assets/initial-data.json");
+
 const tweets = data.tweets;
 
 /*

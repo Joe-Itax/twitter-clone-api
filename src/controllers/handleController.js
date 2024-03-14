@@ -1,4 +1,15 @@
-const data = require("../../assets/data.json");
+const fs = require("fs");
+const path = require("path");
+
+const pathToData = path.join(__dirname, "..", "..", "assets", "data.json");
+
+const data = fs.existsSync(pathToData)
+  ? require("../../assets/data.json")
+  : require("../../assets/initial-data.json");
+
+/*const data =
+  require("../../assets/data.json") ||
+  require("../../assets/initial-data.json");*/
 const users = data.users;
 const tweets = data.tweets;
 
@@ -101,7 +112,52 @@ async function getTweetsOfOneUser(req, res) {
   }
 }
 
+/*
+--------------------------
+returns all tweets from a user
+identified by their handle and 
+who have media such as photos 
+or videos
+--------------------------
+/users/:handle/medias
+*/
+function getTweetsOfOneUserWithMedia(req, res) {
+  let handle = req.baseUrl;
+
+  handle = handle.slice(7, handle.length);
+  let targetHandle = `@${handle}`;
+
+  let { userId } = findUserIdByHandle(users, targetHandle);
+
+  const idOfAuthorTweet = findTweetsOfUserById(tweets, userId);
+
+  try {
+    const tweetsFiltered = tweets.filter(
+      (tweet) => tweet.author === idOfAuthorTweet
+    );
+
+    const tweetsFilteredWithMedia = tweetsFiltered.filter(
+      (tweet) => tweet.media.length > 0
+    );
+
+    const tweetsFilteredAndSorted = sortedTweets(tweetsFilteredWithMedia);
+
+    if (idOfAuthorTweet !== null) {
+      return res.send(tweetsFilteredAndSorted);
+    } else {
+      return res
+        .status(404)
+        .send(
+          `Aucun tweet avec media n'a été trouvé pour l'utilisateur avec le handle ${targetHandle} `
+        );
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getDetailsOfAUser,
   getTweetsOfOneUser,
+  getTweetsOfOneUserWithMedia,
 };
