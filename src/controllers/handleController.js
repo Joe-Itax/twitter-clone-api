@@ -14,19 +14,33 @@ function findUserIdByHandle(users, targetHandle) {
   return result;
 }
 
+function findTweetsOfUserById(tweets, userId) {
+  let id = null;
+
+  tweets.forEach((tweet) => {
+    if (tweet.author === userId) {
+      id = tweet.author;
+    }
+  });
+  return id;
+}
+
+const sortedTweets = (tweets) => {
+  const sorted = tweets.sort(
+    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+  );
+  return sorted;
+};
 /*
 --------------------------
 returns all infos of a user 
 identified by their handle
 --------------------------
-/:handle
+/users/:handle
 */
 async function getDetailsOfAUser(req, res) {
   let handle = req.baseUrl;
   handle = handle.slice(7, handle.length);
-  //console.log(res);
-  console.log(req.params);
-  console.log("reqdd: ", handle);
   let targetHandle = `@${handle}`;
 
   let { userId, infoUser } = findUserIdByHandle(users, targetHandle);
@@ -54,7 +68,7 @@ async function getDetailsOfAUser(req, res) {
 returns all tweets from a user 
 identified by their handle
 --------------------------
-/:handle/tweets
+/users/:handle/tweets
 */
 async function getTweetsOfOneUser(req, res) {
   let handle = req.baseUrl;
@@ -62,21 +76,31 @@ async function getTweetsOfOneUser(req, res) {
   handle = handle.slice(7, handle.length);
   let targetHandle = `@${handle}`;
 
-  let { userId, infoUser } = findUserIdByHandle(users, targetHandle);
+  let { userId } = findUserIdByHandle(users, targetHandle);
+
+  const idOfAuthorTweet = findTweetsOfUserById(tweets, userId);
+
   try {
-    if (userId !== null) {
-      return res.send(`Les tweets de l'utilisateur "${handle}"`);
+    const tweetsFiltered = tweets.filter(
+      (tweet) => tweet.author === idOfAuthorTweet
+    );
+
+    const tweetsFilteredAndSorted = sortedTweets(tweetsFiltered);
+
+    if (idOfAuthorTweet !== null) {
+      return res.send(tweetsFilteredAndSorted);
     } else {
       return res
         .status(404)
         .send(
-          `Aucun utilisateur avec le handle ${targetHandle} n'a été trouvé.`
+          `Aucun tweet n'a été trouvé pour l'utilisateur avec le handle ${targetHandle} `
         );
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
+
 module.exports = {
   getDetailsOfAUser,
   getTweetsOfOneUser,
