@@ -10,8 +10,22 @@ const { tweetRouter, handleRouter } = require("./routes");
 
 //const { getDetailsOfAUser } = require("./controllers/handleController");
 
-const corsOptions = {
+const allowedOrigins = [
+  `http://localhost:5173`,
+  `https://x-clone-itax.netlify.app`,
+  `http://localhost:5173`,
+];
+/*const corsOptions = {
   origin: `http://localhost:5173`,
+};*/
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS`));
+    }
+  },
 };
 
 // Config
