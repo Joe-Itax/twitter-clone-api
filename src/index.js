@@ -5,8 +5,9 @@ const PORT = 3000;
 
 const { tweetsBaseURI } = require("./config/paths");
 const { handleBaseURI } = require("./config/paths");
+const { usersBaseURI } = require("./config/paths");
 
-const { tweetRouter, handleRouter } = require("./routes");
+const { tweetRouter, handleRouter, userRouter } = require("./routes");
 
 //const { getDetailsOfAUser } = require("./controllers/handleController");
 
@@ -45,6 +46,7 @@ app.get("/", (req, res) => {
 });
 //app.get("/:handle", getDetailsOfAUser);
 app.use(handleBaseURI, handleRouter);
+app.use(usersBaseURI, userRouter);
 app.use(tweetsBaseURI, tweetRouter);
 
 app.listen(PORT, () => {

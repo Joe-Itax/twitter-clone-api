@@ -13,7 +13,7 @@ const { addNewTweet } = require("../middlewares/addNewTweet.middleware");
 tweetRouter.get("/", getAllTweets);
 
 //Create new tweet
-tweetRouter.post("/", isAValidTweet, addNewTweet, createTweets);
+tweetRouter.post("/", isAValidTweet, createTweets);
 
 //exports tweetRouter
 module.exports = tweetRouter;
