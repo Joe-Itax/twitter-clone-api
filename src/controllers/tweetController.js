@@ -20,7 +20,7 @@ Retrieve all tweets
 */
 async function getAllTweets(req, res) {
   const page = req.query.page || 1;
-  const tweetPerPage = req.query.tweetPerPage || 20;
+  const tweetPerPage = req.query.tweetPerPage || 15;
   const startIndex = (page - 1) * tweetPerPage;
   const endIndex = page * tweetPerPage;
 

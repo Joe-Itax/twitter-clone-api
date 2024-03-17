@@ -4,10 +4,9 @@ const app = express();
 const PORT = 3000;
 
 const { tweetsBaseURI } = require("./config/paths");
-const { handleBaseURI } = require("./config/paths");
 const { usersBaseURI } = require("./config/paths");
 
-const { tweetRouter, handleRouter, userRouter } = require("./routes");
+const { tweetRouter, userRouter } = require("./routes");
 
 //const { getDetailsOfAUser } = require("./controllers/handleController");
 
@@ -44,8 +43,6 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   return res.send("La racine de l'app");
 });
-//app.get("/:handle", getDetailsOfAUser);
-app.use(handleBaseURI, handleRouter);
 app.use(usersBaseURI, userRouter);
 app.use(tweetsBaseURI, tweetRouter);
 
